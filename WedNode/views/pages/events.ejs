@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <!-- <%- include('../partials/header'); %> -->
+</header>
+
+<main>
+  <div class="jumbotron">
+    Club Number: <input type="text" id="clubNumber" value="30183">
+    Event Date Range : <input type="text" id="eventDateRange" value="<%= moment().format('YYYY-MM-DD') %>">
+    <button id="myButton">Load Events</button>
+    <h2> List Events From ABC API </h2>
+
+    <!-- start table -->
+      <table class="table" id="eventsTable">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col"><%= moment().format( 'dddd MM/DD/YYYY') %></th>
+            <th scope="col">Description</th>
+            <th scope="col">Enrolled</th>
+            <th scope="col">Room</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <% infoBody.events.forEach(function(event) { %>
+                  <tr>
+                  <!-- date -->
+                    <td>
+                      <%= event.sampleTime %>
+                    </td>
+                    <!-- Description -->
+                    <td>
+                      <%= event.description %>
+                    </td>
+                    <!-- Enrolled -->
+                    <td>
+                      <%= event.enrolled %>
+                    </td>
+                    <!-- Room -->
+                    <td>
+                      <%= event.room %>
+                    </td>
+                   </tr>
+                <% }); %>
+         
+        </tbody>
+    </table>
+    <!-- end table -->
+
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+<script src="client.js"></script>
+<script src="moment.js"></script>
+</html>
