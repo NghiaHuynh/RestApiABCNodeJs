@@ -9,6 +9,7 @@ Change directory to this folder:
 `cd WedNode`
 
 Install node_modules for app:
+
 `npm install`
 
 Now we need to start app run command:
