@@ -109,6 +109,43 @@ app.post('/events', function(req, res) {
   
 });
 
+app.get('/:clubNumber/description/event/:eventTypeId', function(req, res) {
+  console.log("get event description data ");
+
+  var clubNumber = req.params.clubNumber;
+  var eventTypeId = req.params.eventTypeId;
+
+  console.log(req.params);
+  var urlString = 'https://api.abcfinancial.com/rest/'+clubNumber+'/calendars/eventtypes/'+eventTypeId;
+  console.log(urlString);
+  const options = {
+    url: urlString,
+    headers: {
+      'User-Agent': 'request',
+      'app_id'        : 'a6c6c04b',
+      'app_key'        : '2e99851faed9e250571112f99599d67f',
+      'Accept'        : 'application/json;charset=UTF-8',
+      'Content-Type' : 'application/json; charset=utf-8'
+    }
+  };
+
+  request(options, function (error, response, body) {
+      // in addition to parsing the value, deal with possible errors
+      if (error) return console.log(error);
+      try {
+          // JSON.parse() can throw an exception if not valid JSON
+          var info = JSON.parse(body);
+          // console.log(info);
+          var eventsJson = parseJsonEventTypes(info.eventTypes);
+          res.json(eventsJson);
+          
+      } catch(e) {
+          console.log(e);
+      }
+    });
+
+});
+
 app.post('/eventDescription', function(req, res) {
   console.log("get event description data post");
 
@@ -144,6 +181,42 @@ app.post('/eventDescription', function(req, res) {
       }
     });
 
+});
+
+app.get('/:clubNumber/available/employees/:eventId', function(req, res) {
+  console.log("get available employees data ");
+  var clubNumber = req.params.clubNumber;
+  var eventId = req.params.eventId;
+
+  console.log(req.params);
+  var urlString = 'https://api.abcfinancial.com/rest/'+clubNumber+'/calendars/events/'+eventId+'/availableemployees';
+  console.log(urlString);
+  const options = {
+    url: urlString,
+    headers: {
+      'User-Agent': 'request',
+      'app_id'        : 'a6c6c04b',
+      'app_key'        : '2e99851faed9e250571112f99599d67f',
+      'Accept'        : 'application/json;charset=UTF-8',
+      'Content-Type' : 'application/json; charset=utf-8'
+    }
+  };
+
+  request(options, function (error, response, body) {
+      // in addition to parsing the value, deal with possible errors
+      if (error) return console.log(error);
+      try {
+          // JSON.parse() can throw an exception if not valid JSON
+          var info = JSON.parse(body);
+          // console.log(info);
+          var eventsJson = parseJsonAvailableEmployees(info);
+          res.json(eventsJson);
+          
+      } catch(e) {
+          console.log(e);
+      }
+    });
+  
 });
 
 app.post('/availableEmployees', function(req, res) {
